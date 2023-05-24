@@ -1,145 +1,119 @@
-#include <iostream>
-#include <unistd.h>
+#include <iomanip>
 
-const std::string kCommandMsg =
-"\nPlease input one of the following commands.\n\n"
-"ADD             : save a new contact\n"
-"SEARCH          : display a specific contact\n"
-"EXIT or CTRL-D  : exit\n\n"
-"> ";
-const std::string kInvalidCommandMsg = "Invalid command\n";
-const std::string kAddContactMsg = "\nPlease fill in the following\n";
-const std::string kSearchContactMsg = "\nPlease input User ID\n";
-const std::string kTerminateMsg = "Bye!\n";
-const int kUserIdMax = 8;
-const int kContactInfoMax = 4;
-const std::string kHomeHeader =
-"\n"
-"********************************************\n"
-"                    HOME                    \n"
-"********************************************\n";
-const std::string kAddContactHeader =
-"\n"
-"********************************************\n"
-"                 ADD CONTACT                \n"
-"********************************************\n";
-const std::string kSearchContactHeader =
-"\n"
-"********************************************\n"
-"                SEARCH CONTACT              \n"
-"********************************************\n";
+#include "phonebook.hpp"
 
-class Contact {
-  public:
-    Contact();
-    std::string getContactInfo(int index);
-    void setContactInfo(int index, std::string info);
-  private:
-    std::string contact_info_[kContactInfoMax];
-};
+#define TRUE 1
 
-std::string Contact::getContactInfo(int index) {
-  return contact_info_[index];
+void putColoredText(const std::string text, const std::string color) {
+  std::cout << color << text << kReset;
 }
 
-void Contact::setContactInfo(int index, std::string info) {
-  contact_info_[index] = info;
-}
-
-Contact::Contact() {
-    contact_info_[0] = "first name";
-    contact_info_[1] = "last name";
-    contact_info_[2] = "nick name";
-    contact_info_[3] = "phone number";
-};
-
-class PhoneBook {
-  public:
-    PhoneBook() : index_(0) {};
-    void interactive(PhoneBook *phone_book);
-    void addContact(PhoneBook *phone_book);
-    void searchContact(PhoneBook *phone_book);
-    void getContact(Contact contact);
-    void terminate();
-    std::string readLine();
-    bool is_full_;
-  private:
-    std::string command_;
-    Contact contact_list_[kUserIdMax];
-    int index_;
-};
-
-void PhoneBook::terminate() {
-  std::cout << "Bye!" << "\n";
-  std::exit(EXIT_SUCCESS);
-}
-
-std::string PhoneBook::readLine() {
-    std::string line;
-    if (!std::getline(std::cin, line)) {
-      std::cout << "^D\n";
-      terminate();
-    }
+std::string readLine() {
+  std::string line;
+  if (std::getline(std::cin, line)) {
     return line;
+  } else {
+    std::cout << "^D\n";
+    putColoredText(kTerminateMsg, kMagenta);
+    exit(EXIT_SUCCESS);
+  }
 }
 
-void PhoneBook::addContact(PhoneBook *phone_book) {
-  std::cout << kAddContactHeader << kAddContactMsg;
+void PhoneBook::addContact(PhoneBook& phone_book) {
+  putColoredText(kAddContactHeader, kMagenta);
+  putColoredText(kAddContactMsg, kBlue);
+
   Contact contact;
-  for (int i = 0; i < kContactInfoMax; ++i) {
-    std::cout << contact.getContactInfo(i) << "\n> ";
+  contact.setInfo(0, std::to_string(index_ + 1));
+  for (int i = 1; i < kContactInfoMax; ++i) {
+    putColoredText(contact.getInfo(i), kBlue);
+    std::cout << "> ";
     std::string info = readLine();
-    if (info == "") {
-      std::cout << "Empty characters cannot be registered\n\n";
+    try {
+      if (info == "") throw kErrorEmptyMsg;
+    } catch(const std::string msg) {
+      putColoredText(msg, kRed);
       --i;
       continue;
     }
-    contact.setContactInfo(i, info);
+    contact.setInfo(i, info);
   }
-  std::cout << "\nRegistered in the Phonebook.\n";
-  phone_book->contact_list_[index_++] = contact;
-  if (index_ >= 8) {
-    is_full_ = true;
-    index_ = 0;
-  }
+
+  phone_book.contacts_[index_++] = contact;
+  is_full_ = index_ >= kUserIdMax;
+  if (is_full_) index_ = 0;
+
+  putColoredText(kRegisteredInfoMsg, kGreen);
 }
 
-void PhoneBook::searchContact(PhoneBook *phone_book) {
-  std::cout << kSearchContactHeader << kSearchContactMsg << "> ";
+void PhoneBook::searchContact(PhoneBook& phone_book) {
   try {
+    if (!is_full_ && index_ == 0) throw kErrorNoInformationMsg;
+
+    putColoredText(kSearchContactHeader, kMagenta);
+    putColoredText(kContactViewerHeader, kBlue);
+
+    int count = is_full_ ? kUserIdMax : index_;
+    for (int i = 0; i < count; ++i) {
+      contactViewer(phone_book.contacts_[i]);
+    }
+
+    putColoredText(kSearchContactMsg, kBlue);
+    std::cout << "> ";
+
     int id = std::stoi(readLine());
     if (id <= 0 || id > kUserIdMax || (!is_full_ && id > index_)) {
-      throw std::invalid_argument("");
+      throw kErrorNoInformationMsg;
+    } else {
+      contactViewer(phone_book.contacts_[id - 1]);
     }
-    getContact(phone_book->contact_list_[id - 1]);
-  } catch (...) {
-    std::cout << "Invalid ID\n";
+  } catch (std::invalid_argument) {
+    putColoredText(kErrorIdMsg, kRed);
+  } catch (std::out_of_range) {
+    putColoredText(kErrorIdMsg, kRed);
+  } catch (const std::string e) {
+    putColoredText(e, kRed);
   }
 }
 
-void PhoneBook::getContact(Contact contact) {
-  std::cout << contact.getContactInfo(0) << "\n";
-}
-
-void PhoneBook::interactive(PhoneBook *phone_book) {
-  while (1) {
-    std::cout << kHomeHeader << kCommandMsg;
-      command_ = readLine();
-      if (command_ == "EXIT") {
-        break ;
-      } else if (command_ == "ADD") {
-        addContact(phone_book);
-      } else if (command_ == "SEARCH") {
-        searchContact(phone_book);
-      } else {
-        std::cout << kInvalidCommandMsg;
-      }
+void PhoneBook::contactViewer(Contact& contact) {
+  for (int i = 0; i < 4; ++i) {
+    putColoredText("|", kBlue);
+    if (contact.getInfo(i).size() < 10) {
+      std::cout
+        << std::setw(10)
+        << std::setfill(' ')
+        << contact.getInfo(i);
+    } else {
+      std::cout
+        << contact.getInfo(i).substr(0, 9)
+        << ".";
     }
-  std::cout << kTerminateMsg;
+  }
+  putColoredText("|", kBlue);
+  putColoredText(kContactViewerFooter, kBlue);
 }
 
-int	main() {
+int PhoneBook::run() {
+  putColoredText(kAsciiArt, kMagenta);
+
   PhoneBook phone_book;
-  phone_book.interactive(&phone_book);
+  while (TRUE) {
+    putColoredText(kHomeHeader, kMagenta);
+    putColoredText(kUsage, kBlue);
+    std::cout << "> ";
+
+    command_ = readLine();
+    if (command_ == "EXIT") {
+      break ;
+    } else if (command_ == "ADD") {
+      addContact(phone_book);
+    } else if (command_ == "SEARCH") {
+      searchContact(phone_book);
+    } else {
+      putColoredText(kErrorCommandMsg, kRed);
+    }
+  }
+  putColoredText(kTerminateMsg, kMagenta);
   return 0;
 }
