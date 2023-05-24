@@ -2,8 +2,6 @@
 
 #include "phonebook.hpp"
 
-#define TRUE 1
-
 void putColoredText(const std::string text, const std::string color) {
   std::cout << color << text << kReset;
 }
@@ -79,7 +77,7 @@ void PhoneBook::addContact(PhoneBook& phone_book) {
 
 void PhoneBook::searchContact(PhoneBook& phone_book) {
   try {
-    if (!is_full_ && index_ == 0) throw kErrorNoInformationMsg;
+    if (!is_full_ && index_ == 0) throw kErrorNoInfoMsg;
 
     putColoredText(kSearchContactHeader, kMagenta);
     putColoredText(kContactTableViewerHeader, kBlue);
@@ -94,7 +92,7 @@ void PhoneBook::searchContact(PhoneBook& phone_book) {
 
     int id = std::stoi(readLine());
     if (id <= 0 || id > kUserIdMax || (!is_full_ && id > index_)) {
-      throw kErrorNoInformationMsg;
+      throw kErrorNoInfoMsg;
     } else {
       contactViewer(phone_book.contacts_[id - 1]);
     }

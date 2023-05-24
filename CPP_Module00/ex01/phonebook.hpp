@@ -4,6 +4,8 @@
 #include <iostream>
 #include "contact.hpp"
 
+#define TRUE 1
+
 //text color
 const std::string kRed     = "\x1b[31m";
 const std::string kGreen   = "\x1b[32m";
@@ -57,10 +59,10 @@ const std::string kSearchContactMsg  = "\nindex";
 const std::string kTerminateMsg      = "Bye!\n";
 const std::string kRegisteredInfoMsg = "\n*** Successfully registered! ***\n";
 
-const std::string kErrorCommandMsg       = "\n*** Invalid command ***\n";
-const std::string kErrorIdMsg            = "\n*** Invalid ID ***\n";
-const std::string kErrorNoInformationMsg = "\n*** No infomation is registered ***\n";
-const std::string kErrorEmptyMsg         = "\n*** Empty characters cannot be registered ***\n\n";
+const std::string kErrorCommandMsg = "\n*** Invalid command ***\n";
+const std::string kErrorIdMsg      = "\n*** Invalid ID ***\n";
+const std::string kErrorNoInfoMsg  = "\n*** No infomation is registered ***\n";
+const std::string kErrorEmptyMsg   = "\n*** Empty characters cannot be registered ***\n\n";
 
 const int kUserIdMax = 8;
 
