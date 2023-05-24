@@ -6,14 +6,14 @@ SRCS = $(wildcard *.cpp)
 OBJS = $(SRCS:%.cpp=%.o)
 
 $(NAME) : $(OBJS)
-  $(CXX) $(OBJS) -o $(NAME)
+	$(CXX) $(OBJS) -o $(NAME)
 
 all: $(NAME)
 
 clean:
-  $(RM) *.o
+	$(RM) *.o
 fclean: clean
-  $(RM) $(NAME)
+	$(RM) $(NAME)
 re: fclean all
 
 .PHONY: all clean fclean re

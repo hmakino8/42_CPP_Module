@@ -71,8 +71,8 @@ class PhoneBook {
     void run();
     void addContact(PhoneBook& phone_book);
     void searchContact(PhoneBook& phone_book);
-    void contactViewer(Contact& contact);
-    void contactTableViewer(Contact& contact);
+    //void contactViewer(Contact& contact);
+    //void contactTableViewer(Contact& contact);
 
   private:
     int index_;
