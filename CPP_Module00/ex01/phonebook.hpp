@@ -20,26 +20,26 @@ const std::string kAsciiArt =
 
 const std::string kHomeHeader =
 "\n"
-"*********************************************\n"
-"                    HOME                     \n"
-"*********************************************\n";
+"*******************************************************\n"
+"*                        HOME                         *\n"
+"*******************************************************\n";
 const std::string kAddContactHeader =
 "\n"
-"*********************************************\n"
-"                 ADD CONTACT                 \n"
-"*********************************************\n";
+"*******************************************************\n"
+"*                     ADD CONTACT                     *\n"
+"*******************************************************\n";
 const std::string kSearchContactHeader =
 "\n"
-"*********************************************\n"
-"                SEARCH CONTACT               \n"
-"*********************************************\n";
+"*******************************************************\n"
+"*                    SEARCH CONTACT                   *\n"
+"*******************************************************\n";
 
 const std::string kContactViewerBorder =
 "---------------------------------------------\n";
 const std::string kContactTableViewerHeader =
 "\n"
 "+----------+----------+----------+----------+\n"
-"|     INDEX|FIRST NAME| LAST NAME| NICK NAME|\n"
+"|     INDEX|FIRST NAME| LAST NAME|  NICKNAME|\n"
 "+----------+----------+----------+----------+\n";
 const std::string kContactViewerFooter =
 "\n"
@@ -53,7 +53,7 @@ const std::string kUsage =
 "EXIT or CTRL-D : exit\n\n";
 
 const std::string kAddContactMsg     = "\nPlease fill in the following information\n\n";
-const std::string kSearchContactMsg  = "\nUser ID";
+const std::string kSearchContactMsg  = "\nindex";
 const std::string kTerminateMsg      = "Bye!\n";
 const std::string kRegisteredInfoMsg = "\n*** Successfully registered! ***\n";
 
@@ -71,8 +71,6 @@ class PhoneBook {
     void run();
     void addContact(PhoneBook& phone_book);
     void searchContact(PhoneBook& phone_book);
-    //void contactViewer(Contact& contact);
-    //void contactTableViewer(Contact& contact);
 
   private:
     int index_;

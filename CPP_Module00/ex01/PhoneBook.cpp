@@ -19,33 +19,6 @@ std::string readLine() {
   }
 }
 
-void PhoneBook::addContact(PhoneBook& phone_book) {
-  putColoredText(kAddContactHeader, kMagenta);
-  putColoredText(kAddContactMsg, kBlue);
-
-  Contact contact;
-  contact.setInfo(0, std::to_string(index_ + 1));
-  for (int i = 1; i < kContactInfoMax; ++i) {
-    putColoredText(contact.getInfo(i), kBlue);
-    std::cout << "> ";
-    std::string info = readLine();
-    try {
-      if (info == "") throw kErrorEmptyMsg;
-    } catch(const std::string msg) {
-      putColoredText(msg, kRed);
-      --i;
-      continue;
-    }
-    contact.setInfo(i, info);
-  }
-
-  phone_book.contacts_[index_++] = contact;
-  if (!is_full_ && index_ == kUserIdMax) is_full_ = true;
-  index_ %= kUserIdMax;
-
-  putColoredText(kRegisteredInfoMsg, kGreen);
-}
-
 void contactViewer(Contact& contact) {
   putColoredText(kContactViewerBorder, kBlue);
 
@@ -77,6 +50,32 @@ void contactTableViewer(Contact& contact) {
   putColoredText(kContactViewerFooter, kBlue);
 }
 
+void PhoneBook::addContact(PhoneBook& phone_book) {
+  putColoredText(kAddContactHeader, kMagenta);
+  putColoredText(kAddContactMsg, kBlue);
+
+  Contact contact;
+  contact.setInfo(0, std::to_string(index_ + 1));
+  for (int i = 1; i < kContactInfoMax; ++i) {
+    putColoredText(contact.getInfo(i), kBlue);
+    std::cout << "> ";
+    std::string info = readLine();
+    try {
+      if (info == "") throw kErrorEmptyMsg;
+    } catch(const std::string msg) {
+      putColoredText(msg, kRed);
+      --i;
+      continue;
+    }
+    contact.setInfo(i, info);
+  }
+
+  phone_book.contacts_[index_++] = contact;
+  if (!is_full_ && index_ == kUserIdMax) is_full_ = true;
+  index_ %= kUserIdMax;
+
+  putColoredText(kRegisteredInfoMsg, kGreen);
+}
 
 void PhoneBook::searchContact(PhoneBook& phone_book) {
   try {
@@ -109,7 +108,7 @@ void PhoneBook::searchContact(PhoneBook& phone_book) {
 }
 
 void PhoneBook::run() {
-  putColoredText(kAsciiArt, kMagenta);
+  putColoredText(kAsciiArt, kGreen);
 
   PhoneBook phone_book;
   while (TRUE) {

@@ -3,16 +3,17 @@
 
 #include "phonebook.hpp"
 
-const int kContactInfoMax = 5;
+const int kContactInfoMax = 6;
 
 class Contact {
   public:
     Contact() {
-      info_[0] = "index       ";
-      info_[1] = "first name  ";
-      info_[2] = "last  name  ";
-      info_[3] = "nick  name  ";
-      info_[4] = "phone number";
+      info_[0] = "index          ";
+      info_[1] = "first name     ";
+      info_[2] = "last name      ";
+      info_[3] = "nickname       ";
+      info_[4] = "phone number   ";
+      info_[5] = "darkest secret ";
     };
     ~Contact() {};
 
