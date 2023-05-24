@@ -13,7 +13,7 @@ all: $(NAME)
 clean:
 	$(RM) *.o
 fclean: clean
-	$(RM) all
+	$(RM) $(NAME)
 re: fclean all
 
 test: re
