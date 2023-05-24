@@ -2,5 +2,6 @@
 
 int	main() {
   PhoneBook phone_book;
-  return phone_book.run();
+  phone_book.run();
+  return 0;
 }

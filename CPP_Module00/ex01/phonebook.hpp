@@ -20,21 +20,23 @@ const std::string kAsciiArt =
 
 const std::string kHomeHeader =
 "\n"
-"*******************************************************\n"
-"                         HOME                          \n"
-"*******************************************************\n";
+"*********************************************\n"
+"                    HOME                     \n"
+"*********************************************\n";
 const std::string kAddContactHeader =
 "\n"
-"*******************************************************\n"
-"                      ADD CONTACT                      \n"
-"*******************************************************\n";
+"*********************************************\n"
+"                 ADD CONTACT                 \n"
+"*********************************************\n";
 const std::string kSearchContactHeader =
 "\n"
-"*******************************************************\n"
-"                     SEARCH CONTACT                    \n"
-"*******************************************************\n";
+"*********************************************\n"
+"                SEARCH CONTACT               \n"
+"*********************************************\n";
 
-const std::string kContactViewerHeader =
+const std::string kContactViewerBorder =
+"---------------------------------------------\n";
+const std::string kContactTableViewerHeader =
 "\n"
 "+----------+----------+----------+----------+\n"
 "|     INDEX|FIRST NAME| LAST NAME| NICK NAME|\n"
@@ -55,10 +57,10 @@ const std::string kSearchContactMsg  = "\nUser ID";
 const std::string kTerminateMsg      = "Bye!\n";
 const std::string kRegisteredInfoMsg = "\n*** Successfully registered! ***\n";
 
-const std::string kErrorCommandMsg       = "*** Invalid command ***\n";
-const std::string kErrorIdMsg            = "*** Invalid ID ***\n";
-const std::string kErrorNoInformationMsg = "*** No infomation is registered ***\n";
-const std::string kErrorEmptyMsg         = "*** Empty characters cannot be registered ***\n\n";
+const std::string kErrorCommandMsg       = "\n*** Invalid command ***\n";
+const std::string kErrorIdMsg            = "\n*** Invalid ID ***\n";
+const std::string kErrorNoInformationMsg = "\n*** No infomation is registered ***\n";
+const std::string kErrorEmptyMsg         = "\n*** Empty characters cannot be registered ***\n\n";
 
 const int kUserIdMax = 8;
 
@@ -66,17 +68,18 @@ class PhoneBook {
   public:
     PhoneBook() : index_(0), is_full_(false) {};
 
-    int run();
+    void run();
     void addContact(PhoneBook& phone_book);
     void searchContact(PhoneBook& phone_book);
     void contactViewer(Contact& contact);
+    void contactTableViewer(Contact& contact);
 
     std::string command_;
     int index_;
     bool is_full_;
 
   private:
-    Contact contacts_[kUserIdMax];
+    Contact contacts_[kUserIdMax + 1];
 };
 
 #endif

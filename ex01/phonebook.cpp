@@ -40,8 +40,8 @@ void PhoneBook::addContact(PhoneBook& phone_book) {
   }
 
   phone_book.contacts_[index_++] = contact;
-  if (!is_full_ && index_ == kUserIdMax) is_full_ = true;
-  index_ %= kUserIdMax;
+  is_full_ = index_ >= kUserIdMax;
+  if (is_full_) index_ = 0;
 
   putColoredText(kRegisteredInfoMsg, kGreen);
 }
@@ -51,7 +51,7 @@ void PhoneBook::searchContact(PhoneBook& phone_book) {
     if (!is_full_ && index_ == 0) throw kErrorNoInformationMsg;
 
     putColoredText(kSearchContactHeader, kMagenta);
-    putColoredText(kContactTableViewerHeader, kBlue);
+    putColoredText(kContactViewerHeader, kBlue);
 
     int count = is_full_ ? kUserIdMax : index_;
     for (int i = 0; i < count; ++i) {
@@ -77,18 +77,6 @@ void PhoneBook::searchContact(PhoneBook& phone_book) {
 }
 
 void PhoneBook::contactViewer(Contact& contact) {
-  putColoredText(kContactViewerBorder, kBlue);
-
-  Contact fields;
-  for (int i = 0; i < kContactInfoMax; ++i) {
-    putColoredText(fields.getInfo(i) + ": ", kBlue);
-    std::cout << contact.getInfo(i) << "\n";
-  }
-
-  putColoredText(kContactViewerBorder, kBlue);
-}
-
-void PhoneBook::contactTableViewer(Contact& contact) {
   for (int i = 0; i < 4; ++i) {
     putColoredText("|", kBlue);
     if (contact.getInfo(i).size() < 10) {
@@ -102,12 +90,11 @@ void PhoneBook::contactTableViewer(Contact& contact) {
         << ".";
     }
   }
-
   putColoredText("|", kBlue);
   putColoredText(kContactViewerFooter, kBlue);
 }
 
-void PhoneBook::run() {
+int PhoneBook::run() {
   putColoredText(kAsciiArt, kMagenta);
 
   PhoneBook phone_book;
@@ -127,6 +114,6 @@ void PhoneBook::run() {
       putColoredText(kErrorCommandMsg, kRed);
     }
   }
-
   putColoredText(kTerminateMsg, kMagenta);
+  return 0;
 }
