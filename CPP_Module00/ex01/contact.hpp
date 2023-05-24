@@ -14,6 +14,7 @@ class Contact {
       info_[3] = "nick  name  ";
       info_[4] = "phone number";
     };
+    ~Contact() {};
 
     std::string getInfo(int i) { return info_[i]; }
     void setInfo(int i, std::string info) { info_[i] = info; }

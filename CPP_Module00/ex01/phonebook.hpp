@@ -67,18 +67,17 @@ const int kUserIdMax = 8;
 class PhoneBook {
   public:
     PhoneBook() : index_(0), is_full_(false) {};
-
+    ~PhoneBook() {};
     void run();
     void addContact(PhoneBook& phone_book);
     void searchContact(PhoneBook& phone_book);
     void contactViewer(Contact& contact);
     void contactTableViewer(Contact& contact);
 
-    std::string command_;
+  private:
     int index_;
     bool is_full_;
-
-  private:
+    std::string command_;
     Contact contacts_[kUserIdMax + 1];
 };
 
