@@ -1,7 +1,6 @@
 NAME = account
 CXX = c++
-#CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-CXXFLAGS = -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = $(wildcard *.cpp)
 OBJS = $(SRCS:%.cpp=%.o)
@@ -12,13 +11,14 @@ $(NAME) : $(OBJS)
 all: $(NAME)
 
 clean:
-	$(RM) *.o
+	$(RM) *.o test.log
 
 fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
 
+#creat log
 origin: CXXFLAGS += -D ORIGIN=1
 origin: re
 	./Account > test.log
