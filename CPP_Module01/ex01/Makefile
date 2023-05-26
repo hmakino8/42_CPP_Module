@@ -1,4 +1,4 @@
-NAME = zombie
+NAME = zombieHorde
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
@@ -12,8 +12,13 @@ all: $(NAME)
 
 clean:
 	$(RM) *.o
+
 fclean: clean
 	$(RM) $(NAME)
+
 re: fclean all
+
+run: all
+	./$(NAME)
 
 .PHONY: all clean fclean re

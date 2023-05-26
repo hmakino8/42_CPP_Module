@@ -12,8 +12,13 @@ all: $(NAME)
 
 clean:
 	$(RM) *.o
+
 fclean: clean
 	$(RM) $(NAME)
+
+run: all
+	./$(NAME)
+
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean run re
