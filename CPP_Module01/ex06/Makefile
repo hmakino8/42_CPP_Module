@@ -1,4 +1,4 @@
-NAME     = program
+NAME     = harlFilter
 CXX      = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
@@ -20,22 +20,22 @@ re: fclean all
 
 test: re
 	@echo "--------------------------------------------";
-	@echo "[TEST1: ./program]\n";
+	@echo "[TEST1: ./harlFilter]\n";
 	-@./$(NAME)
 	@echo "--------------------------------------------";
-	@echo "[TEST2: ./program NoSuchCommand]\n";
+	@echo "[TEST2: ./harlFilter NoSuchCommand]\n";
 	-@./$(NAME) NoSuchCommand;
 	@echo "--------------------------------------------";
-	@echo "[TEST3: ./program DEBUG]\n";
+	@echo "[TEST3: ./harlFilter DEBUG]\n";
 	-@./$(NAME) DEBUG;
 	@echo "--------------------------------------------";
-	@echo "[TEST4: ./program INFO]\n";
+	@echo "[TEST4: ./harlFilter INFO]\n";
 	-@./$(NAME) INFO;
 	@echo "--------------------------------------------";
-	@echo "[TEST5: ./program WARNING]\n";
+	@echo "[TEST5: ./harlFilter WARNING]\n";
 	-@./$(NAME) WARNING;
 	@echo "--------------------------------------------";
-	@echo "[TEST5: ./program ERROR]\n";
+	@echo "[TEST5: ./harlFilter ERROR]\n";
 	-@./$(NAME) ERROR;
 	@make fclean;
 

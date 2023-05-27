@@ -20,6 +20,7 @@ class Harl {
   void Info();
   void Warning();
   void Error();
+  void Other();
 };
 
 #endif
