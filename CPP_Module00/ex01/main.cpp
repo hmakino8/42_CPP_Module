@@ -1,7 +1,7 @@
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
 int main() {
   PhoneBook phone_book;
-  phone_book.run();
+  phone_book.Run();
   return 0;
 }

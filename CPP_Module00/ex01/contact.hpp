@@ -1,7 +1,7 @@
 #ifndef CONTACT_HPP
 #define CONTACT_HPP
 
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
 const int kContactInfoMax = 6;
 
@@ -17,8 +17,8 @@ class Contact {
     };
     ~Contact() {};
 
-    std::string getInfo(int i) { return info_[i]; }
-    void setInfo(int i, std::string info) { info_[i] = info; }
+    std::string GetInfo(int i) { return info_[i]; }
+    void SetInfo(int i, std::string info) { info_[i] = info; }
 
   private:
     std::string info_[kContactInfoMax];

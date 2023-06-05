@@ -18,12 +18,16 @@ fclean: clean
 
 re: fclean all
 
-#creat log
+run: all
+	./$(NAME)
+
+#creat test.log
 origin: CXXFLAGS += -D ORIGIN=1
 origin: re
 	./Account > test.log
 
+#take the diff between original log and test log
 test: origin
 	diff 19920104_091532.log test.log; make fclean; rm test.log
 
-.PHONY: all clean fclean re origin test
+.PHONY: all clean fclean re run origin test

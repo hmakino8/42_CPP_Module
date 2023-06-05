@@ -1,130 +1,130 @@
 #include <iomanip>
 
-#include "phonebook.hpp"
+#include "PhoneBook.hpp"
 
-void putColoredText(const std::string text, const std::string color) {
+void PutColoredTextedText(const std::string text, const std::string color) {
   std::cout << color << text << kReset;
 }
 
-std::string readLine() {
+std::string ReadLine() {
   std::string line;
   if (std::getline(std::cin, line)) {
     return line;
   } else {
     std::cout << "^D\n";
-    putColoredText(kTerminateMsg, kMagenta);
+    PutColoredTextedText(kTerminateMsg, kMagenta);
     exit(EXIT_SUCCESS);
   }
 }
 
 void contactViewer(Contact& contact) {
-  putColoredText(kContactViewerBorder, kBlue);
+  PutColoredTextedText(kContactViewerBorder, kBlue);
 
   Contact fields;
   for (int i = 0; i < kContactInfoMax; ++i) {
-    putColoredText(fields.getInfo(i) + ": ", kBlue);
-    std::cout << contact.getInfo(i) << "\n";
+    PutColoredTextedText(fields.GetInfo(i) + ": ", kBlue);
+    std::cout << contact.GetInfo(i) << "\n";
   }
 
-  putColoredText(kContactViewerBorder, kBlue);
+  PutColoredTextedText(kContactViewerBorder, kBlue);
 }
 
 void contactTableViewer(Contact& contact) {
   for (int i = 0; i < 4; ++i) {
-    putColoredText("|", kBlue);
-    if (contact.getInfo(i).size() < 10) {
+    PutColoredTextedText("|", kBlue);
+    if (contact.GetInfo(i).size() < 10) {
       std::cout
         << std::setw(10)
         << std::setfill(' ')
-        << contact.getInfo(i);
+        << contact.GetInfo(i);
     } else {
       std::cout
-        << contact.getInfo(i).substr(0, 9)
+        << contact.GetInfo(i).substr(0, 9)
         << ".";
     }
   }
 
-  putColoredText("|", kBlue);
-  putColoredText(kContactViewerFooter, kBlue);
+  PutColoredTextedText("|", kBlue);
+  PutColoredTextedText(kContactViewerFooter, kBlue);
 }
 
-void PhoneBook::addContact(PhoneBook& phone_book) {
-  putColoredText(kAddContactHeader, kMagenta);
-  putColoredText(kAddContactMsg, kBlue);
+void PhoneBook::AddContact(PhoneBook& phone_book) {
+  PutColoredTextedText(kAddContactHeader, kMagenta);
+  PutColoredTextedText(kAddContactMsg, kBlue);
 
   Contact contact;
-  contact.setInfo(0, std::to_string(index_ + 1));
+  contact.SetInfo(0, std::to_string(index_ + 1));
   for (int i = 1; i < kContactInfoMax; ++i) {
-    putColoredText(contact.getInfo(i), kBlue);
+    PutColoredTextedText(contact.GetInfo(i), kBlue);
     std::cout << "> ";
-    std::string info = readLine();
+    std::string info = ReadLine();
     try {
       if (info == "") throw kErrorEmptyMsg;
     } catch(const std::string msg) {
-      putColoredText(msg, kRed);
+      PutColoredTextedText(msg, kRed);
       --i;
       continue;
     }
-    contact.setInfo(i, info);
+    contact.SetInfo(i, info);
   }
 
   phone_book.contacts_[index_++] = contact;
-  if (!is_full_ && index_ == kUserIdMax) is_full_ = true;
+  if (!is_full_ && index_ == kUserIdMax) is_full_ = kTrue;
   index_ %= kUserIdMax;
 
-  putColoredText(kRegisteredInfoMsg, kGreen);
+  PutColoredTextedText(kRegisteredInfoMsg, kGreen);
 }
 
-void PhoneBook::searchContact(PhoneBook& phone_book) {
+void PhoneBook::SearchContact(PhoneBook& phone_book) {
   try {
     if (!is_full_ && index_ == 0) throw kErrorNoInfoMsg;
 
-    putColoredText(kSearchContactHeader, kMagenta);
-    putColoredText(kContactTableViewerHeader, kBlue);
+    PutColoredTextedText(kSearchContactHeader, kMagenta);
+    PutColoredTextedText(kContactTableViewerHeader, kBlue);
 
     int count = is_full_ ? kUserIdMax : index_;
     for (int i = 0; i < count; ++i) {
       contactTableViewer(phone_book.contacts_[i]);
     }
 
-    putColoredText(kSearchContactMsg, kBlue);
+    PutColoredTextedText(kSearchContactMsg, kBlue);
     std::cout << "> ";
 
-    int id = std::stoi(readLine());
+    int id = std::stoi(ReadLine());
     if (id <= 0 || id > kUserIdMax || (!is_full_ && id > index_)) {
       throw kErrorNoInfoMsg;
     } else {
       contactViewer(phone_book.contacts_[id - 1]);
     }
   } catch (std::invalid_argument) {
-    putColoredText(kErrorIdMsg, kRed);
+    PutColoredTextedText(kErrorIdMsg, kRed);
   } catch (std::out_of_range) {
-    putColoredText(kErrorIdMsg, kRed);
+    PutColoredTextedText(kErrorIdMsg, kRed);
   } catch (const std::string e) {
-    putColoredText(e, kRed);
+    PutColoredTextedText(e, kRed);
   }
 }
 
-void PhoneBook::run() {
-  putColoredText(kAsciiArt, kGreen);
+void PhoneBook::Run() {
+  PutColoredTextedText(kAsciiArt, kGreen);
 
   PhoneBook phone_book;
-  while (TRUE) {
-    putColoredText(kHomeHeader, kMagenta);
-    putColoredText(kUsage, kBlue);
+  while (kTrue) {
+    PutColoredTextedText(kHomeHeader, kMagenta);
+    PutColoredTextedText(kUsage, kBlue);
     std::cout << "> ";
 
-    command_ = readLine();
+    command_ = ReadLine();
     if (command_ == "EXIT") {
       break ;
     } else if (command_ == "ADD") {
-      addContact(phone_book);
+      AddContact(phone_book);
     } else if (command_ == "SEARCH") {
-      searchContact(phone_book);
+      SearchContact(phone_book);
     } else {
-      putColoredText(kErrorCommandMsg, kRed);
+      PutColoredTextedText(kErrorCommandMsg, kRed);
     }
   }
 
-  putColoredText(kTerminateMsg, kMagenta);
+  PutColoredTextedText(kTerminateMsg, kMagenta);
 }

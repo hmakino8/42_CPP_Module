@@ -85,7 +85,7 @@ bool	Account::makeWithdrawal(int withdrawal) {
       std::cout << "withdrawal:" << withdrawal << ";"
                 << "amount:" << _amount<< ";"
                 << "nb_withdrawals:" << _nbWithdrawals << "\n";
-      return true;
+      return kTrue;
     }
   } catch (std::invalid_argument e) {
     std::cout << e.what() << "\n";
@@ -102,7 +102,8 @@ void	Account::displayStatus() const {
 }
 
 void	Account::_displayTimestamp() {
-  std::time_t now = std::time(nullptr);
+  //nullptr is not supported in c++98
+  std::time_t now = std::time(NULL);
   const tm *local_time = localtime(&now);
 
   if (ORIGIN) {

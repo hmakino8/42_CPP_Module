@@ -2,9 +2,7 @@
 #define PHONEBOOK_HPP
 
 #include <iostream>
-#include "contact.hpp"
-
-#define TRUE 1
+#include "Contact.hpp"
 
 //text color
 const std::string kRed     = "\x1b[31m";
@@ -65,14 +63,15 @@ const std::string kErrorNoInfoMsg  = "\n*** No infomation is registered ***\n";
 const std::string kErrorEmptyMsg   = "\n*** Empty characters cannot be registered ***\n\n";
 
 const int kUserIdMax = 8;
+const int kTrue = 1;
 
 class PhoneBook {
   public:
     PhoneBook() : index_(0), is_full_(false) {};
     ~PhoneBook() {};
-    void run();
-    void addContact(PhoneBook& phone_book);
-    void searchContact(PhoneBook& phone_book);
+    void Run();
+    void AddContact(PhoneBook& phone_book);
+    void SearchContact(PhoneBook& phone_book);
 
   private:
     int index_;
